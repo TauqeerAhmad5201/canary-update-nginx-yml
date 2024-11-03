@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-canary
+  labels:
+    app: nginx
+    version: canary
+  annotations:
+    kubernetes.io/change-cause: "Testing nginx 1.25" # Add tracking annotation
+spec:
+  replicas: 2  # Start with 1 replica for canary
+  selector:
+    matchLabels:
+      app: nginx
+      version: canary
+  template:
+    metadata:
+      labels:
+        app: nginx
+        version: canary
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.20  # New version
+        ports:
+        - containerPort: 80
