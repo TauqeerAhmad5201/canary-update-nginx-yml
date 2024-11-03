@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-base
+  labels:
+    app: nginx
+    version: base
+  annotations:
+    kubernetes.io/change-cause: "Update to nginx 1.20" # Add tracking annotation
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+      version: base
+  template:
+    metadata:
+      labels:
+        app: nginx
+        version: base
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.19
+        ports:
+        - containerPort: 80
